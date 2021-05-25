@@ -1,18 +1,26 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const scmuserRoutes = require("./routes/scmuserRoutes");
-const globalErrorHandler = require("./globalErrorHandler");
+const morgan = require("morgan");
+
 const AppError = require("./AppError");
+const globalErrorHandler = require("./globalErrorHandler");
+
+const scmuserRoutes = require("./routes/scmuserRoutes");
+const contractRoutes = require("./routes/contractRoutes");
+const batchRoutes = require("./routes/batchRoutes");
 
 // Loading environment variables
 dotenv.config({ path: "config.env" });
 
-// Configuring express app
+// Configuring express app and middlewares
 const app = express();
+app.use(morgan("dev"));
 app.use(express.json());
 
 // Handling API routes
 app.use("/api/scmusers", scmuserRoutes);
+app.use("/api/contracts", contractRoutes);
+app.use("/api/batches", batchRoutes);
 
 // Handling errors
 app.all("*", (req, res, next) =>
