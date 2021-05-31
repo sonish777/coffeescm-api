@@ -22,9 +22,9 @@ module.exports.extractErrorMessage = (error) => {
 };
 
 module.exports.catchAsyncError = (fn) => (req, res, next) => {
-  fn(req, res, next).catch((err) =>
-    next(new AppError(500, this.extractErrorMessage(err)))
-  );
+  fn(req, res, next).catch((err) => {
+    next(new AppError(500, this.extractErrorMessage(err) || err.message));
+  });
 };
 
 module.exports.generateResourceClassname = (role) => {
@@ -40,6 +40,19 @@ module.exports.generateResourceClassname = (role) => {
       return NS + "Processor#";
     case "CONTRACT":
       return NS + "Contract#";
+  }
+};
+
+module.exports.generateMapKey = (role) => {
+  switch (role.toUpperCase()) {
+    case "GROWER":
+      return "grower";
+    case "FARMINSPECTOR":
+      return "farmInspector";
+    case "SHIPPER":
+      return "shipper";
+    case "PROCESSOR":
+      return "processor";
   }
 };
 

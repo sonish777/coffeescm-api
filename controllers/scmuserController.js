@@ -7,7 +7,7 @@ module.exports.getSCMUsers = catchAsyncError(async (req, res, next) => {
   if (!role) {
     return next(new AppError(400, "User role is not specified"));
   }
-  const data = await SCMUser.get(role);
+  const data = await SCMUser.get({ role });
   res.status(200).json({
     status: "success",
     data,

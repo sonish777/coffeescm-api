@@ -1,6 +1,12 @@
 const AppError = require("../AppError");
-const { catchAsyncError, getUpdateType } = require("../helper");
+const {
+  catchAsyncError,
+  getUpdateType,
+  generateResourceClassname,
+  generateMapKey,
+} = require("../helper");
 const Batch = require("../models/Batch");
+const Contract = require("../models/Contract");
 
 module.exports.getAllBatches = catchAsyncError(async (req, res, next) => {
   const data = await Batch.get();
@@ -37,5 +43,24 @@ module.exports.updateBatch = catchAsyncError(async (req, res, next) => {
   return res.status(200).json({
     status: "success",
     data: updatedBatch,
+  });
+});
+
+module.exports.getMyBatches = catchAsyncError(async (req, res, next) => {
+  const userId = req.user.userId;
+  const resourceString = generateResourceClassname(req.user.role);
+  const myContracts = await Contract.get(
+    JSON.stringify({
+      where: {
+        [generateMapKey(req.user.role)]:
+          resourceString.replace("#", "%23") + userId,
+      },
+      include: "resolve",
+    })
+  );
+  const myBatches = myContracts.map((el) => el.batch);
+  res.status(200).json({
+    status: "success",
+    data: myBatches,
   });
 });

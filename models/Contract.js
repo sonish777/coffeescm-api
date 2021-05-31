@@ -42,11 +42,13 @@ class Contract {
     this.processor = processor;
   }
 
-  static async get() {
+  static async get(filter = null) {
     try {
       const result = await axios({
         method: "GET",
-        url: `${process.env.BLOCKCHAIN_URL}/Contract`,
+        url: filter
+          ? `${process.env.BLOCKCHAIN_URL}/Contract?filter=${filter}`
+          : `${process.env.BLOCKCHAIN_URL}/Contract`,
       });
       return result.data;
     } catch (error) {

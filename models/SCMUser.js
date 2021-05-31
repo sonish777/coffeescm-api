@@ -1,28 +1,38 @@
 const axios = require("axios");
+const bcrypt = require("bcryptjs");
 
 class SCMUser {
-  constructor({ userId, role, email, contact, address, name }) {
+  constructor({ userId, role, email, contact, address, name, password }) {
     this.userId = userId;
     this.name = name;
     this.role = role;
     this.email = email;
     this.contact = contact;
     this.address = address;
+    this.password = password;
   }
 
-  static async get(role) {
+  static async get({ role, ...args }) {
     switch (role.toUpperCase()) {
       case "GROWER":
-        const growerUrl = `${process.env.BLOCKCHAIN_URL}/Grower`;
+        const growerUrl = args.email
+          ? `${process.env.BLOCKCHAIN_URL}/queries/GetGrowerByEmail?email=${args.email}`
+          : `${process.env.BLOCKCHAIN_URL}/Grower`;
         return getSCMUser({ url: growerUrl });
       case "FARMINSPECTOR":
-        const fiUrl = `${process.env.BLOCKCHAIN_URL}/FarmInspector`;
+        const fiUrl = args.email
+          ? `${process.env.BLOCKCHAIN_URL}/queries/GetFarmInspectorByEmail?email=${args.email}`
+          : `${process.env.BLOCKCHAIN_URL}/FarmInspector`;
         return getSCMUser({ url: fiUrl });
       case "SHIPPER":
-        const shipperUrl = `${process.env.BLOCKCHAIN_URL}/Shipper`;
+        const shipperUrl = args.email
+          ? `${process.env.BLOCKCHAIN_URL}/queries/GetShipperByEmail?email=${args.email}`
+          : `${process.env.BLOCKCHAIN_URL}/Shipper`;
         return getSCMUser({ url: shipperUrl });
       case "PROCESSOR":
-        const processorUrl = `${process.env.BLOCKCHAIN_URL}/Processors`;
+        const processorUrl = args.email
+          ? `${process.env.BLOCKCHAIN_URL}/queries/GetProcessorByEmail?email=${args.email}`
+          : `${process.env.BLOCKCHAIN_URL}/Processor`;
         return getSCMUser({ url: processorUrl });
     }
   }
@@ -45,6 +55,9 @@ class SCMUser {
   }
 
   async set() {
+    if (this.password) {
+      this.password = await bcrypt.hash(this.password, 10);
+    }
     switch (this.role.toUpperCase()) {
       case "GROWER":
         let growerUrl = `${process.env.BLOCKCHAIN_URL}/Grower`;

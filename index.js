@@ -8,6 +8,7 @@ const globalErrorHandler = require("./globalErrorHandler");
 const scmuserRoutes = require("./routes/scmuserRoutes");
 const contractRoutes = require("./routes/contractRoutes");
 const batchRoutes = require("./routes/batchRoutes");
+const cookieParser = require("cookie-parser");
 
 // Loading environment variables
 dotenv.config({ path: "config.env" });
@@ -16,6 +17,7 @@ dotenv.config({ path: "config.env" });
 const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cookieParser());
 
 // Handling API routes
 app.use("/api/scmusers", scmuserRoutes);

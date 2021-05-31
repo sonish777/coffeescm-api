@@ -1,5 +1,4 @@
 const axios = require("axios");
-const AppError = require("../AppError");
 
 class Batch {
   constructor({
@@ -40,11 +39,13 @@ class Batch {
     this.contract = contract;
   }
 
-  static async get() {
+  static async get(filter = null) {
     try {
       const result = await axios({
         methood: "GET",
-        url: `${process.env.BLOCKCHAIN_URL}/Batch`,
+        url: filter
+          ? `${process.env.BLOCKCHAIN_URL}/Batch?filter=${filter}`
+          : `${process.env.BLOCKCHAIN_URL}/Batch`,
       });
       return result.data;
     } catch (error) {
