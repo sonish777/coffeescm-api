@@ -9,7 +9,11 @@ const Batch = require("../models/Batch");
 const Contract = require("../models/Contract");
 
 module.exports.getAllBatches = catchAsyncError(async (req, res, next) => {
-  const data = await Batch.get();
+  const data = await Batch.get(
+    JSON.stringify({
+      include: "resolve",
+    })
+  );
   return res.status(200).json({
     status: "success",
     data,
@@ -19,7 +23,12 @@ module.exports.getAllBatches = catchAsyncError(async (req, res, next) => {
 module.exports.getBatch = catchAsyncError(async (req, res, next) => {
   const { batchId } = req.params;
   if (!batchId) return next(new AppError(400, "Batch Id must be provided"));
-  const data = await Batch.getById({ id: batchId });
+  const data = await Batch.getById(
+    { id: batchId },
+    JSON.stringify({
+      include: "resolve",
+    })
+  );
   return res.status(200).json({
     status: "success",
     data,

@@ -2,7 +2,16 @@ const axios = require("axios");
 const bcrypt = require("bcryptjs");
 
 class SCMUser {
-  constructor({ userId, role, email, contact, address, name, password }) {
+  constructor({
+    userId,
+    role,
+    email,
+    contact,
+    address,
+    name,
+    password,
+    avatarPath,
+  }) {
     this.userId = userId;
     this.name = name;
     this.role = role;
@@ -10,6 +19,7 @@ class SCMUser {
     this.contact = contact;
     this.address = address;
     this.password = password;
+    this.avatarPath = avatarPath;
   }
 
   static async get({ role, ...args }) {

@@ -6,7 +6,9 @@ const scmuserController = require("../controllers/scmuserController");
 
 const router = express.Router();
 
-router.route("/").post(scmuserController.createSCMUser);
+router
+  .route("/")
+  .post(scmuserController.upload, scmuserController.createSCMUser);
 router.route("/login").post(authController.login);
 router.route("/me").get(authController.protect, authController.getMyProfile);
 router

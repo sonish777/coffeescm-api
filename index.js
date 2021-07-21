@@ -1,3 +1,5 @@
+const path = require("path");
+
 const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
@@ -8,6 +10,7 @@ const globalErrorHandler = require("./globalErrorHandler");
 const scmuserRoutes = require("./routes/scmuserRoutes");
 const contractRoutes = require("./routes/contractRoutes");
 const batchRoutes = require("./routes/batchRoutes");
+const systemRoutes = require("./routes/systemRoutes");
 const cookieParser = require("cookie-parser");
 
 // Loading environment variables
@@ -19,10 +22,13 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
 
+app.use(express.static(path.join(__dirname, "public")));
+
 // Handling API routes
 app.use("/api/scmusers", scmuserRoutes);
 app.use("/api/contracts", contractRoutes);
 app.use("/api/batches", batchRoutes);
+app.use("/api/system", systemRoutes);
 
 // Handling errors
 app.all("*", (req, res, next) =>

@@ -53,11 +53,13 @@ class Batch {
     }
   }
 
-  static async getById({ id }) {
+  static async getById({ id }, filter = null) {
     try {
       const result = await axios({
         method: "GET",
-        url: `${process.env.BLOCKCHAIN_URL}/Batch/${id}`,
+        url: filter
+          ? `${process.env.BLOCKCHAIN_URL}/Batch/${id}?filter=${filter}`
+          : `${process.env.BLOCKCHAIN_URL}/Batch/${id}`,
       });
       return result.data;
     } catch (error) {

@@ -56,11 +56,13 @@ class Contract {
     }
   }
 
-  static async getById({ id }) {
+  static async getById({ id }, filter = null) {
     try {
       const result = await axios({
         method: "GET",
-        url: `${process.env.BLOCKCHAIN_URL}/Contract/${id}`,
+        url: filter
+          ? `${process.env.BLOCKCHAIN_URL}/Contract/${id}?filter=${filter}`
+          : `${process.env.BLOCKCHAIN_URL}/Contract/${id}`,
       });
       return result.data;
     } catch (error) {
