@@ -7,7 +7,11 @@ const {
 const Contract = require("../models/Contract");
 
 module.exports.getAllContracts = catchAsyncError(async (req, res, next) => {
-  const data = await Contract.get();
+  const data = await Contract.get(
+    JSON.stringify({
+      include: "resolve",
+    })
+  );
   return res.status(200).json({
     status: "success",
     data,

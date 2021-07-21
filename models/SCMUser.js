@@ -1,5 +1,6 @@
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
+const { generateUUID } = require("../helper");
 
 class SCMUser {
   constructor({
@@ -68,6 +69,7 @@ class SCMUser {
     if (this.password) {
       this.password = await bcrypt.hash(this.password, 10);
     }
+    this.userId = this.userId || generateUUID();
     switch (this.role.toUpperCase()) {
       case "GROWER":
         let growerUrl = `${process.env.BLOCKCHAIN_URL}/Grower`;

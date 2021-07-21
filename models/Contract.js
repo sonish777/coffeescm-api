@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { generateResourceClassname } = require("../helper");
+const { generateResourceClassname, generateUUID } = require("../helper");
 
 /*
 [
@@ -71,6 +71,8 @@ class Contract {
   }
 
   async set() {
+    this.contractId = this.contractId || generateUUID("CON");
+    this.batchId = this.batchId || generateUUID("BAT");
     try {
       const result = await axios({
         method: "POST",

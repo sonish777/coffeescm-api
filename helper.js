@@ -68,3 +68,12 @@ module.exports.getUpdateType = (updateType) => {
       return "ProcessBatch";
   }
 };
+
+module.exports.generateUUID = (prefix) => {
+  const translator = require("short-uuid")();
+  translator.maxLength = 5;
+  const uuid = translator.uuid();
+  // console.log("SHORTENED 1", translator.fromUUID(uuid));
+  // console.log("SHORTENED 2", translator.fromUUID(uuid));
+  return prefix ? `${prefix}_${uuid}` : uuid;
+};

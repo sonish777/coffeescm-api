@@ -59,6 +59,8 @@ module.exports.getSCMUserById = catchAsyncError(async (req, res, next) => {
 module.exports.createSCMUser = catchAsyncError(async (req, res, next) => {
   if (req.file) {
     req.body.avatarPath = req.avatarPath;
+  } else {
+    req.body.avatarPath = "default.jpg";
   }
   newUser = new SCMUser(req.body);
   const data = await newUser.set();
