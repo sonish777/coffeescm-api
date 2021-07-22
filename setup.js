@@ -13,6 +13,7 @@ const users = [
     email: "g1@email.com",
     password: "test1234",
     contact: "98989898",
+    avatarPath: "default.jpg",
   },
   {
     userId: "f5b8cffd-11a7-4fc8-85f3-f392d4f2ed9c",
@@ -21,6 +22,7 @@ const users = [
     email: "g2@email.com",
     password: "test1234",
     contact: "98989898",
+    avatarPath: "default.jpg",
   },
   {
     userId: "21b6f8e7-8a4e-4101-bfae-3f3259c50e72",
@@ -29,6 +31,7 @@ const users = [
     email: "fi1@email.com",
     password: "test1234",
     contact: "98989898",
+    avatarPath: "default.jpg",
   },
   {
     userId: "7b179b86-89ad-4269-8727-dbd26a2bcd48",
@@ -37,6 +40,7 @@ const users = [
     email: "fi2@email.com",
     password: "test1234",
     contact: "98989898",
+    avatarPath: "default.jpg",
   },
   {
     userId: "3c4feafe-5b11-4c8b-b3e1-db3d8ef16ffa",
@@ -45,6 +49,7 @@ const users = [
     email: "s1@email.com",
     password: "test1234",
     contact: "98989898",
+    avatarPath: "default.jpg",
   },
   {
     userId: "af2e31f3-c1eb-43b3-8233-adb59fc41e73",
@@ -53,6 +58,7 @@ const users = [
     email: "s2@email.com",
     password: "test1234",
     contact: "98989898",
+    avatarPath: "default.jpg",
   },
   {
     userId: "19703578-c15a-44ca-bdea-64d726092bf8",
@@ -61,6 +67,7 @@ const users = [
     email: "p1@email.com",
     password: "test1234",
     contact: "98989898",
+    avatarPath: "default.jpg",
   },
   {
     userId: "27cb973d-86fa-4aa3-806d-10aac71563da",
@@ -69,6 +76,7 @@ const users = [
     email: "p2@email.com",
     password: "test1234",
     contact: "98989898",
+    avatarPath: "default.jpg",
   },
 ];
 

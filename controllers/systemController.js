@@ -42,8 +42,7 @@ module.exports.getSystemIdentitiesById = catchAsyncError(
 );
 
 module.exports.getMyProfile = (req, res, next) => {
-  const token = req.cookies.adminJwt;
-  console.log(req.cookies);
+  const token = req.cookies.adminJwt || req.header("x-auth-token");
   if (!token) return next(new AppError(401, "You are not authorized"));
 
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);

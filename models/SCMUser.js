@@ -70,30 +70,39 @@ class SCMUser {
       this.password = await bcrypt.hash(this.password, 10);
     }
     this.userId = this.userId || generateUUID();
+
     switch (this.role.toUpperCase()) {
       case "GROWER":
-        let growerUrl = `${process.env.BLOCKCHAIN_URL}/Grower`;
+        let growerUrl = this.userId
+          ? "http://192.168.246.128:3000/api/Grower"
+          : `${process.env.BLOCKCHAIN_URL}/Grower`;
         return createSCMUser({
           className: "org.coffeescm.Grower",
           data: this,
           url: growerUrl,
         });
       case "FARMINSPECTOR":
-        let fiUrl = `${process.env.BLOCKCHAIN_URL}/FarmInspector`;
+        let fiUrl = this.userId
+          ? "http://192.168.246.128:3000/api/FarmInspector"
+          : `${process.env.BLOCKCHAIN_URL}/FarmInspector`;
         return createSCMUser({
           className: "org.coffeescm.FarmInspector",
           data: this,
           url: fiUrl,
         });
       case "SHIPPER":
-        let shipperUrl = `${process.env.BLOCKCHAIN_URL}/Shipper`;
+        let shipperUrl = this.userId
+          ? "http://192.168.246.128:3000/api/Shipper"
+          : `${process.env.BLOCKCHAIN_URL}/Shipper`;
         return createSCMUser({
           className: "org.coffeescm.Shipper",
           data: this,
           url: shipperUrl,
         });
       case "PROCESSOR":
-        let processorUrl = `${process.env.BLOCKCHAIN_URL}/Processor`;
+        let processorUrl = this.userId
+          ? "http://192.168.246.128:3000/api/Processor"
+          : `${process.env.BLOCKCHAIN_URL}/Processor`;
         return createSCMUser({
           className: "org.coffeescm.Processor",
           data: this,

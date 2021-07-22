@@ -1,5 +1,8 @@
 const axios = require("axios");
+const dotenv = require("dotenv");
+
 const { generateResourceClassname, generateUUID } = require("../helper");
+dotenv.config({ path: "../config.env" });
 
 /*
 [
@@ -76,7 +79,10 @@ class Contract {
     try {
       const result = await axios({
         method: "POST",
-        url: `${process.env.BLOCKCHAIN_URL}/CreateContract`,
+        url:
+          this.contractId && this.batchId
+            ? "http://192.168.246.128:3000/api/CreateContract"
+            : `${process.env.BLOCKCHAIN_URL}/CreateContract`,
         data: {
           $class: "org.coffeescm.CreateContract",
           ...this,
@@ -100,7 +106,9 @@ class Contract {
     try {
       const result = await axios({
         method: "POST",
-        url: `${process.env.BLOCKCHAIN_URL}/AddContractParticipants`,
+        url: `${
+          process.env.BLOCKCHAIN_URL || "http://192.168.246.128:3000/api"
+        }/AddContractParticipants`,
         data: {
           $class: "org.coffeescm.AddContractParticipants",
           currentContract:

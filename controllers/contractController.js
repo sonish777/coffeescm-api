@@ -22,7 +22,12 @@ module.exports.getContract = catchAsyncError(async (req, res, next) => {
   const { contractId } = req.params;
   if (!contractId)
     return next(new AppError(400, "Please provide a contract ID"));
-  const data = await Contract.getById({ id: contractId });
+  const data = await Contract.getById(
+    { id: contractId },
+    JSON.stringify({
+      include: "resolve",
+    })
+  );
   return res.status(200).json({
     status: "success",
     data,

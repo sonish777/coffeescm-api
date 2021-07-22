@@ -40,12 +40,17 @@ module.exports.login = catchAsyncError(async (req, res, next) => {
 });
 
 module.exports.protect = catchAsyncError(async (req, res, next) => {
-  const token = req.cookies.jwt;
+  console.log("Accessing Protecetd route.........");
+  const token = req.cookies.jwt || req.header("x-auth-token");
   if (!token) return next(new AppError(401, "You are not authorized"));
 
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
   if (!decodedToken)
     return next(new AppError(400, "Your token is no longer valid"));
+
+  if (decodedToken.isAdmin) {
+    return next();
+  }
 
   const user = await SCMUser.getById({
     role: decodedToken.role,
