@@ -35,7 +35,13 @@ module.exports.getContract = catchAsyncError(async (req, res, next) => {
 });
 
 module.exports.createContract = catchAsyncError(async (req, res, next) => {
-  const newContract = new Contract({ ...req.body, grower: req.user.userId });
+  const grower = req.user.email === "admin" ? req.body.grower : req.user.userId;
+  console.log("GROWER ISS", grower);
+  console.log("CURRENT LOGGED IN USER", req.user.userId);
+  const newContract = new Contract({
+    ...req.body,
+    grower: req.user.email === "admin" ? req.body.grower : req.user.userId,
+  });
   const data = await newContract.set();
   return res.status(201).json({
     status: "success",

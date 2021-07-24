@@ -8,6 +8,7 @@ module.exports.loginAdmin = async (req, res, next) => {};
 
 module.exports.login = catchAsyncError(async (req, res, next) => {
   const { role, email, password } = req.body;
+  console.log(role, email, password);
   if (!email || !password) {
     return next(new AppError(400, "Please provide you email and password"));
   }
@@ -42,6 +43,8 @@ module.exports.login = catchAsyncError(async (req, res, next) => {
 module.exports.protect = catchAsyncError(async (req, res, next) => {
   console.log("Accessing Protecetd route.........");
   const token = req.cookies.jwt || req.header("x-auth-token");
+  console.log("TOKEN IN COOKIES", req.cookies.jwt);
+  console.log("TOKEN IN HEADER", req.header("x-auth-token"));
   if (!token) return next(new AppError(401, "You are not authorized"));
 
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -49,6 +52,14 @@ module.exports.protect = catchAsyncError(async (req, res, next) => {
     return next(new AppError(400, "Your token is no longer valid"));
 
   if (decodedToken.isAdmin) {
+    req.user = {
+      userId: decodedToken.id,
+      name: "Network Admin",
+      email: "admin",
+      contact: "-",
+      address: "-",
+      role: "NETWORKADMIN",
+    };
     return next();
   }
 

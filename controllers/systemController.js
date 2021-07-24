@@ -102,6 +102,7 @@ module.exports.login = (req, res, next) => {
           email: "admin",
           contact: "-",
           address: "-",
+          role: "NETWORKADMIN",
         },
         token,
       });
