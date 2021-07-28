@@ -1,4 +1,7 @@
 const cors = require("cors");
+
+const consumerRoutes = require("./routes/consumerRoutes");
+
 const path = require("path");
 const express = require("express");
 const dotenv = require("dotenv");
@@ -30,6 +33,7 @@ app.use("/api/scmusers", scmuserRoutes);
 app.use("/api/contracts", contractRoutes);
 app.use("/api/batches", batchRoutes);
 app.use("/api/system", systemRoutes);
+app.use("/api/consumer", consumerRoutes);
 
 // Handling errors
 app.all("*", (req, res, next) =>

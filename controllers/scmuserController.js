@@ -1,5 +1,5 @@
 const path = require("path");
-
+const axios = require("axios");
 const multer = require("multer");
 
 const { catchAsyncError } = require("../helper");
@@ -67,5 +67,20 @@ module.exports.createSCMUser = catchAsyncError(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data,
+  });
+});
+
+module.exports.getMyDonations = catchAsyncError(async (req, res, next) => {
+  console.log(req.user.userId);
+  if (req.user.role !== "GROWER") {
+    return next(new AppError(401, "You are not authorized"));
+  }
+  const result = await axios({
+    method: "GET",
+    url: `${process.env.BLOCKCHAIN_URL}/Donation?filter={"where": {"grower":"resource:org.coffeescm.Grower%23${req.user.userId}"}, "include":"resolve"}`,
+  });
+  res.status(200).json({
+    status: "success",
+    data: result.data,
   });
 });
